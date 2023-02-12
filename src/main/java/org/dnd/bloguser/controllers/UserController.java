@@ -31,4 +31,9 @@ public class UserController {
     public ResponseEntity<RestTemplateUserBlog> getUserByIdWithBlog(@PathVariable("id") Long userId){
         return new ResponseEntity<RestTemplateUserBlog>(userService.getUserByIdWithBlog(userId), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long id){
+        return null;
+    }
 }
