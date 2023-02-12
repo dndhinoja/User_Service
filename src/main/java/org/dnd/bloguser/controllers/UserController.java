@@ -29,6 +29,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RestTemplateUserBlog> getUserByIdWithBlog(@PathVariable("id") Long userId){
+        log.info("Getting user by Id");
         return new ResponseEntity<RestTemplateUserBlog>(userService.getUserByIdWithBlog(userId), HttpStatus.OK);
     }
 }
