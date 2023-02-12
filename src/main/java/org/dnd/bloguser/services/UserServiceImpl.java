@@ -5,6 +5,7 @@ import org.dnd.bloguser.entities.User;
 import org.dnd.bloguser.models.Blog;
 import org.dnd.bloguser.models.RestTemplateUserBlog;
 import org.dnd.bloguser.repositories.UserRepository;
+import org.dnd.bloguser.utils.RequestResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RestTemplate restTemplate;
 
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -36,11 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RestTemplateUserBlog getUserByIdWithBlog(Long userId) {
+    public RestTemplateUserBlog getUserByIdWithBlog(Long userId){
         User user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException());
         Long blogId = user.getBlogId();
 
-        HttpEntity<String> httpEntity = getStringHttpEntity(blogId);
+        HttpEntity<String> httpEntity = RequestResponseUtils.getStringHttpEntity();
         Map<String, Long> map = new HashMap<>();
         map.put("id", blogId);
         ResponseEntity<Blog> blogResponseEntity= restTemplate.exchange("http://BLOG-SERVICE/blogs/{id}", HttpMethod.GET, httpEntity, Blog.class, map);
@@ -49,12 +51,4 @@ public class UserServiceImpl implements UserService {
         return new RestTemplateUserBlog(user, blog);
     }
 
-    private HttpEntity<String> getStringHttpEntity(Long blogId) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        List<MediaType> list = new ArrayList<>();
-        list.add(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(list);
-        HttpEntity<String> httpEntity = new HttpEntity<>(String.valueOf(httpHeaders));
-        return httpEntity;
-    }
 }
