@@ -49,6 +49,10 @@ public class UserServiceImpl implements UserService {
         return new RestTemplateUserBlog(user, blog);
     }
 
+    public User updateUser(User user, Long id){
+        return new User();
+    }
+
     private HttpEntity<String> getStringHttpEntity(Long blogId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         List<MediaType> list = new ArrayList<>();

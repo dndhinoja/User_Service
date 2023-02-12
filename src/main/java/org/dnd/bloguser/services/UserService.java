@@ -8,4 +8,6 @@ public interface UserService {
     User saveUser(User user);
 
     RestTemplateUserBlog getUserByIdWithBlog(Long userId);
+
+    User updateUser(User user, Long id);
 }
